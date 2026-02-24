@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protonompter</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚛️</text></svg>">
+<style>
+/* ============================================
+   PROTONOMPTER v1.0 — Styles
+   ============================================ */
+
+/* --- Reset & Base --- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #0a0a1a;
+  color: #e0e0f0;
+}
+#app { width: 100%; height: 100%; }
+
+/* --- CSS Variables --- */
+:root {
+  --bg-primary: #0a0a1a;
+  --bg-card: #12122a;
+  --bg-input: #1a1a35;
+  --border: #2a2a4a;
+  --text-primary: #e0e0f0;
+  --text-secondary: #8888aa;
+  --accent: #00ccff;
+  --accent-hover: #00aadd;
+  --accent-glow: rgba(0, 204, 255, 0.3);
+  --success: #00ff88;
+  --warning: #ffaa00;
+}
+
+/* =============================================
+   CONTROL ROOM STYLES
+   ============================================= */
+#control-room {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg-primary);
+}
+
+/* --- Header --- */
+.cr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.cr-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.cr-logo .atom { font-size: 28px; }
+.cr-logo .title-text { background: linear-gradient(135deg, var(--accent), #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.cr-tagline { font-size: 11px; color: var(--text-secondary); font-style: italic; margin-top: 2px; }
+.cr-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.cr-status .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #444;
+  transition: background 0.3s;
+}
+.cr-status .dot.connected { background: var(--success); box-shadow: 0 0 8px var(--success); }
+.cr-status .dot.disconnected { background: #666; }
+.cr-playback-state {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: #333;
+  color: #888;
+}
+.cr-playback-state.playing { background: rgba(0,255,136,0.15); color: var(--success); }
+.cr-playback-state.paused { background: rgba(255,170,0,0.15); color: var(--warning); }
+
+/* --- Main Content Area --- */
+.cr-main {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 16px;
+  padding: 16px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* --- Script Editor Panel --- */
+.cr-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+}
+.cr-editor-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.cr-editor textarea {
+  flex: 1;
+  width: 100%;
+  padding: 16px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.cr-editor textarea:focus { border-color: var(--accent); }
+.cr-editor textarea::placeholder { color: #555; }
+
+/* --- Settings Panel --- */
+.cr-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.cr-settings::-webkit-scrollbar { width: 4px; }
+.cr-settings::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.settings-group {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+.settings-group h3 {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.setting-row:last-child { margin-bottom: 0; }
+.setting-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.setting-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 50px;
+  text-align: right;
+}
+.setting-row-full {
+  margin-bottom: 10px;
+}
+.setting-row-full:last-child { margin-bottom: 0; }
+
+/* Range Inputs */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+  outline: none;
+  margin-top: 6px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+input[type="range"]::-webkit-slider-thumb:hover { box-shadow: 0 0 8px var(--accent-glow); }
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: none;
+}
+
+/* Checkboxes as Toggles */
+.toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.toggle-switch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  background: var(--border);
+  border-radius: 11px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #666;
+  transition: all 0.2s;
+}
+.toggle-wrap input { display: none; }
+.toggle-wrap input:checked + .toggle-switch { background: var(--accent); }
+.toggle-wrap input:checked + .toggle-switch::after { left: 21px; background: #fff; }
+
+/* Color Presets */
+.color-presets {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.color-swatch {
+  width: 44px;
+  height: 34px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  transition: all 0.2s;
+  position: relative;
+}
+.color-swatch:hover { transform: scale(1.1); }
+.color-swatch.active { border-color: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+
+/* Select */
+.cr-select {
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* --- Footer / Action Bar --- */
+.cr-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary {
+  background: var(--accent);
+  color: #000;
+}
+.btn-primary:hover { background: var(--accent-hover); box-shadow: 0 2px 12px var(--accent-glow); }
+.btn-secondary {
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.btn-sm { padding: 7px 14px; font-size: 12px; }
+.spacer { flex: 1; }
+.footer-hint {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* =============================================
+   PROMPTER STYLES
+   ============================================= */
+#prompter-view {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#prompter-view.cursor-hidden { cursor: none; }
+
+#prompter-viewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+#mirror-wrapper {
+  width: 100%;
+  min-height: 100%;
+  transform-origin: center center;
+  transition: transform 0.3s ease;
+}
+#scroll-container {
+  width: 100%;
+  overflow-y: scroll;
+  height: 100vh;
+  scrollbar-width: none;
+}
+#scroll-container::-webkit-scrollbar { display: none; }
+
+#script-display {
+  margin: 0 auto;
+  padding-top: 50vh;
+  padding-bottom: 90vh;
+  padding-left: 20px;
+  padding-right: 20px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+/* Speed Indicator */
+#speed-indicator {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 100;
+}
+#speed-indicator.visible { opacity: 0.7; }
+
+/* Position Indicator */
+#position-indicator {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 100;
+}
+#position-indicator.visible { opacity: 0.5; }
+
+/* Play/Pause Flash */
+#play-indicator {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 80px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 200;
+  transition: opacity 0.15s ease;
+}
+#play-indicator.flash {
+  opacity: 0.5;
+  transition: none;
+}
+
+/* Countdown Overlay */
+#countdown-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+#countdown-overlay.active { opacity: 1; pointer-events: auto; }
+#countdown-text {
+  font-size: 160px;
+  font-weight: 800;
+  color: var(--accent);
+  text-shadow: 0 0 40px var(--accent-glow);
+  transition: transform 0.2s ease;
+}
+#countdown-subtitle {
+  font-size: 20px;
+  color: var(--text-secondary);
+  margin-top: 16px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+/* Waiting Message */
+#waiting-message {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 50;
+}
+#waiting-message .wm-atom { font-size: 64px; animation: pulse 2s ease-in-out infinite; }
+#waiting-message .wm-title { font-size: 28px; font-weight: 700; color: var(--accent); }
+#waiting-message .wm-sub { font-size: 16px; color: var(--text-secondary); }
+#waiting-message.hidden { display: none; }
+
+/* End Marker */
+#end-marker {
+  position: fixed;
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 24px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 8px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.5s;
+  pointer-events: none;
+  z-index: 100;
+}
+#end-marker.visible { opacity: 1; }
+
+/* --- Animations --- */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* --- Responsive --- */
+@media (max-width: 800px) {
+  .cr-main { grid-template-columns: 1fr; }
+  .cr-settings { max-height: 300px; }
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ============================================
+// PROTONOMPTER v1.0
+// A browser-based teleprompter
+// Always positive. Always on cue.
+// ============================================
+
+// --- SEED SCRIPT ---
+const SEED_SCRIPT = `THE LITTLE PROTON THAT COULD FIX THINGS BY BREAKING THEM
+A Totally Scientific Tale from the Covenant Health Proton Center
+
+[INTRO]
+
+Hello, and welcome to Proton Stories — the only podcast where the particles are small, but the personality is atomic.
+
+I'm your host, and today we're telling the tale of Pete the Proton — the tiniest hero at Covenant Health who discovered that sometimes, the best way to fix something... is to break it.
+
+But first, a quick reminder: protons are always positive. Even on Mondays.
+
+[CHAPTER 1: THE BEGINNING]
+
+Pete was no ordinary proton. While other protons were happy just hanging around in the nucleus being positive, Pete had bigger dreams.
+
+"I want to help people," Pete said to his friend Ellie the Electron, who was — as usual — being negative about everything.
+
+"That's impossible," Ellie said, orbiting in circles. "We're subatomic particles. The best we can do is keep atoms from falling apart."
+
+"Watch me," said Pete. And he accelerated to sixty percent the speed of light.
+
+Why did Pete break up with his neutron girlfriend? She had no charge.
+
+[CHAPTER 2: THE PROTON CENTER]
+
+Pete arrived at the Covenant Health Proton Center and was amazed. The place was enormous — at least from a proton's perspective. A coffee mug might as well be the Grand Canyon.
+
+The team there had built an incredible machine — a cyclotron — that could accelerate protons like Pete to unbelievable speeds.
+
+"This is basically a roller coaster for protons," Pete observed. "Except instead of going in circles for fun, we go in circles for SCIENCE."
+
+What did the proton say when it walked into a bar? "I'm positive this is going to be a good time."
+
+[CHAPTER 3: THE BIG IDEA]
+
+Here's the thing about proton therapy that blew Pete's tiny subatomic mind:
+
+You fix things by breaking them.
+
+Not everything, of course. You don't fix a vase by dropping it. You don't fix a computer by throwing it out the window — though honestly, sometimes that feels like the only option.
+
+But with proton therapy, you aim these tiny positive particles at exactly the right spot, and they deliver their energy RIGHT where it's needed. It's like the world's most precise demolition crew, except the hard hats are really, really small.
+
+A neutron walks into a bar and asks, "How much for a drink?" The bartender says, "For you? No charge."
+
+[CHAPTER 4: PETE GETS TO WORK]
+
+Pete was assigned to his first mission. The lead physicist lined up the beam.
+
+"Remember, Pete," said Dr. Martinez, "your job is to go in, deliver your energy at the Bragg peak, and help take out the bad cells. No friendly fire."
+
+Pete nodded — which is hard when you don't have a head.
+
+"I've got this," Pete said. "After all, I've been positive about this from the start."
+
+The other protons in the beam groaned.
+
+What do you call a proton that tells dad jokes? A pro-TON of fun.
+
+[CHAPTER 5: THE BRAGG PEAK]
+
+The beautiful thing about protons — and Pete took great pride in this — is the Bragg peak. Unlike X-rays that scatter energy everywhere like confetti at a parade, protons deliver most of their energy at one precise depth.
+
+"We're not just throwing energy at the problem," Pete explained to the touring medical students. "We're placing it. With surgical precision. Like a delivery driver who always hits the exact right doorstep."
+
+One student raised her hand. "So you're like a tiny, very fast FedEx?"
+
+"Yes," said Pete. "Except I always arrive on time and I never lose the package."
+
+Why don't protons ever get into arguments? Because they always stay positive.
+
+[CHAPTER 6: THE TEAM]
+
+Pete couldn't do it alone, of course. Proton therapy takes a whole team — physicists who plan the treatment, therapists like Sammie who make sure everything runs perfectly, doctors who design the approach, and engineers who keep the cyclotron spinning.
+
+"We're all in this together," Pete said to his fellow protons. "Each one of us carries a little bit of hope, a little bit of science, and a LOT of kinetic energy."
+
+"That was beautiful, Pete."
+
+"Thanks. I've been working on my motivational speaking. It's hard to book gigs when you're smaller than a wavelength of visible light."
+
+What did the proton beam say to the tumor? "I've got energy to spare, and I'm positive you're not going to like it."
+
+[CHAPTER 7: THE MORAL]
+
+And so Pete learned that sometimes, the best way to fix something is to break it — as long as you break EXACTLY the right thing, in EXACTLY the right place, with EXACTLY the right amount of energy.
+
+That, friends, is what proton therapy is all about.
+
+It's not just radiation. It's precision. It's science. It's a tiny positive particle on a very important mission.
+
+So the next time someone tells you to "stay positive," remember Pete. Because being positive isn't just good advice — for a proton, it's literally the only option.
+
+You know what they say about proton therapy?
+
+It's absolutely RAD.
+
+...I'll see myself out.
+
+[END]
+
+Thank you for listening to Proton Stories. Remember — every proton carries a positive charge, and every patient carries our hearts.
+
+This has been a production of the Covenant Health Proton Center — where science and compassion accelerate together.`;
+
+// --- DEFAULTS ---
+const DEFAULTS = {
+  fontSize: 48,
+  textWidth: 75,
+  mirrorH: false,
+  mirrorV: false,
+  bgColor: '#000000',
+  textColor: '#ffffff',
+  scrollSpeed: 60,
+  countdownEnabled: true,
+  countdownDuration: 3,
+};
+
+// --- COLOR PRESETS ---
+const COLOR_PRESETS = [
+  { name: 'Classic', bg: '#000000', text: '#ffffff', label: 'Aa' },
+  { name: 'Matrix', bg: '#000000', text: '#00ff41', label: 'Aa' },
+  { name: 'Warm', bg: '#000000', text: '#ffdd57', label: 'Aa' },
+  { name: 'Night', bg: '#0a0a2e', text: '#c0c0ff', label: 'Aa' },
+  { name: 'Paper', bg: '#f0f0e8', text: '#1a1a1a', label: 'Aa' },
+];
+
+// --- STATE ---
+let settings = { ...DEFAULTS };
+let scriptContent = SEED_SCRIPT;
+let prompterConnected = false;
+let prompterState = 'stopped'; // stopped, playing, paused
+
+// --- LOCAL STORAGE KEYS ---
+const LS_SETTINGS = 'protonompter-saved-settings';
+const LS_TO_PROMPTER = 'protonompter-to-prompter';
+const LS_TO_CONTROL = 'protonompter-to-control';
+
+// --- BROADCAST CHANNEL ---
+let channel = null;
+try {
+  channel = new BroadcastChannel('protonompter');
+} catch (e) {
+  console.log('BroadcastChannel not available, using localStorage fallback');
+}
+
+// --- COMMUNICATION LAYER ---
+const comm = {
+  sendToPrompter(data) {
+    const msg = { ...data, _target: 'prompter', _ts: Date.now() };
+    if (channel) { try { channel.postMessage(msg); } catch(e) {} }
+    try { localStorage.setItem(LS_TO_PROMPTER, JSON.stringify(msg)); } catch(e) {}
+  },
+  sendToControl(data) {
+    const msg = { ...data, _target: 'control', _ts: Date.now() };
+    if (channel) { try { channel.postMessage(msg); } catch(e) {} }
+    try { localStorage.setItem(LS_TO_CONTROL, JSON.stringify(msg)); } catch(e) {}
+  },
+  listen(target, callback) {
+    // BroadcastChannel listener
+    if (channel) {
+      channel.onmessage = (e) => {
+        if (e.data._target === target) callback(e.data);
+      };
+    }
+    // localStorage polling fallback
+    const lsKey = target === 'prompter' ? LS_TO_PROMPTER : LS_TO_CONTROL;
+    let lastTs = 0;
+    setInterval(() => {
+      try {
+        const raw = localStorage.getItem(lsKey);
+        if (raw) {
+          const msg = JSON.parse(raw);
+          if (msg._ts > lastTs) {
+            lastTs = msg._ts;
+            callback(msg);
+          }
+        }
+      } catch(e) {}
+    }, 300);
+  }
+};
+
+// --- MODE DETECTION ---
+const isPrompter = window.location.hash === '#prompter';
+
+// --- INIT ---
+if (isPrompter) {
+  initPrompter();
+} else {
+  initControlRoom();
+}
+
+// =============================================
+// CONTROL ROOM
+// =============================================
+function initControlRoom() {
+  document.title = 'Protonompter — Control Room';
+
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div id="control-room">
+      <div class="cr-header">
+        <div>
+          <div class="cr-logo">
+            <span class="atom">⚛️</span>
+            <span class="title-text">PROTONOMPTER</span>
+          </div>
+          <div class="cr-tagline">Always positive. Always on cue.</div>
+        </div>
+        <div class="cr-status">
+          <span class="cr-playback-state" id="playback-state">STOPPED</span>
+          <span id="connection-label">Prompter disconnected</span>
+          <span class="dot disconnected" id="connection-dot"></span>
+        </div>
+      </div>
+
+      <div class="cr-main">
+        <div class="cr-editor">
+          <div class="cr-editor-label">📝 Script</div>
+          <textarea id="script-editor" placeholder="Paste your script here...">${escapeHtml(scriptContent)}</textarea>
+        </div>
+
+        <div class="cr-settings">
+          <!-- Display Settings -->
+          <div class="settings-group">
+            <h3>🖥️ Display</h3>
+            <div class="setting-row">
+              <span class="setting-label">Font Size</span>
+              <span class="setting-value" id="font-size-val">${settings.fontSize}px</span>
+            </div>
+            <div class="setting-row-full">
+              <input type="range" id="font-size" min="16" max="120" value="${settings.fontSize}">
+            </div>
+            <div class="setting-row">
+              <span class="setting-label">Text Width</span>
+              <span class="setting-value" id="text-width-val">${settings.textWidth}%</span>
+            </div>
+            <div class="setting-row-full">
+              <input type="range" id="text-width" min="20" max="100" value="${settings.textWidth}">
+            </div>
+            <div class="setting-row">
+              <label class="toggle-wrap">
+                <input type="checkbox" id="mirror-h" ${settings.mirrorH ? 'checked' : ''}>
+                <span class="toggle-switch"></span>
+                Mirror Horizontal
+              </label>
+            </div>
+            <div class="setting-row">
+              <label class="toggle-wrap">
+                <input type="checkbox" id="mirror-v" ${settings.mirrorV ? 'checked' : ''}>
+                <span class="toggle-switch"></span>
+                Mirror Vertical
+              </label>
+            </div>
+          </div>
+
+          <!-- Color Settings -->
+          <div class="settings-group">
+            <h3>🎨 Colors</h3>
+            <div class="color-presets" id="color-presets"></div>
+          </div>
+
+          <!-- Scroll Settings -->
+          <div class="settings-group">
+            <h3>📜 Scrolling</h3>
+            <div class="setting-row">
+              <span class="setting-label">Base Speed</span>
+              <span class="setting-value" id="speed-val">${(settings.scrollSpeed / 60).toFixed(1)}x</span>
+            </div>
+            <div class="setting-row-full">
+              <input type="range" id="scroll-speed" min="10" max="200" step="5" value="${settings.scrollSpeed}">
+            </div>
+            <div class="setting-row">
+              <label class="toggle-wrap">
+                <input type="checkbox" id="countdown-toggle" ${settings.countdownEnabled ? 'checked' : ''}>
+                <span class="toggle-switch"></span>
+                Countdown
+              </label>
+              <select class="cr-select" id="countdown-duration">
+                <option value="3" ${settings.countdownDuration === 3 ? 'selected' : ''}>3s</option>
+                <option value="5" ${settings.countdownDuration === 5 ? 'selected' : ''}>5s</option>
+                <option value="10" ${settings.countdownDuration === 10 ? 'selected' : ''}>10s</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Defaults -->
+          <div class="settings-group">
+            <h3>💾 Defaults</h3>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-secondary btn-sm" id="save-defaults" style="flex:1;">Save Current</button>
+              <button class="btn btn-secondary btn-sm" id="load-defaults" style="flex:1;">Load Saved</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cr-footer">
+        <button class="btn btn-primary" id="send-to-prompter">📡 Send to Prompter</button>
+        <button class="btn btn-primary" id="open-prompter">🖥️ Open Prompter</button>
+        <button class="btn btn-secondary" id="reset-position">⏮ Reset to Top</button>
+        <span class="spacer"></span>
+        <span class="footer-hint">Tip: Open Prompter on your second screen, then Send!</span>
+      </div>
+    </div>
+  `;
+
+  // --- Render Color Presets ---
+  const presetsContainer = document.getElementById('color-presets');
+  COLOR_PRESETS.forEach((preset, i) => {
+    const swatch = document.createElement('div');
+    swatch.className = 'color-swatch' + (settings.bgColor === preset.bg && settings.textColor === preset.text ? ' active' : '');
+    swatch.style.background = preset.bg;
+    swatch.style.color = preset.text;
+    swatch.style.border = preset.bg === '#000000' ? '2px solid #333' : '2px solid transparent';
+    if (swatch.classList.contains('active')) swatch.style.borderColor = 'var(--accent)';
+    swatch.textContent = preset.label;
+    swatch.title = preset.name;
+    swatch.dataset.index = i;
+    swatch.addEventListener('click', () => {
+      settings.bgColor = preset.bg;
+      settings.textColor = preset.text;
+      document.querySelectorAll('.color-swatch').forEach(s => {
+        s.classList.remove('active');
+        s.style.borderColor = s.style.background === 'rgb(0, 0, 0)' ? '#333' : 'transparent';
+      });
+      swatch.classList.add('active');
+      swatch.style.borderColor = 'var(--accent)';
+    });
+    presetsContainer.appendChild(swatch);
+  });
+
+  // --- Bind Settings Controls ---
+  const fontSizeSlider = document.getElementById('font-size');
+  const fontSizeVal = document.getElementById('font-size-val');
+  fontSizeSlider.addEventListener('input', () => {
+    settings.fontSize = parseInt(fontSizeSlider.value);
+    fontSizeVal.textContent = settings.fontSize + 'px';
+  });
+
+  const textWidthSlider = document.getElementById('text-width');
+  const textWidthVal = document.getElementById('text-width-val');
+  textWidthSlider.addEventListener('input', () => {
+    settings.textWidth = parseInt(textWidthSlider.value);
+    textWidthVal.textContent = settings.textWidth + '%';
+  });
+
+  document.getElementById('mirror-h').addEventListener('change', (e) => {
+    settings.mirrorH = e.target.checked;
+  });
+  document.getElementById('mirror-v').addEventListener('change', (e) => {
+    settings.mirrorV = e.target.checked;
+  });
+
+  const speedSlider = document.getElementById('scroll-speed');
+  const speedVal = document.getElementById('speed-val');
+  speedSlider.addEventListener('input', () => {
+    settings.scrollSpeed = parseInt(speedSlider.value);
+    speedVal.textContent = (settings.scrollSpeed / 60).toFixed(1) + 'x';
+  });
+
+  document.getElementById('countdown-toggle').addEventListener('change', (e) => {
+    settings.countdownEnabled = e.target.checked;
+  });
+  document.getElementById('countdown-duration').addEventListener('change', (e) => {
+    settings.countdownDuration = parseInt(e.target.value);
+  });
+
+  // --- Action Buttons ---
+  document.getElementById('send-to-prompter').addEventListener('click', () => {
+    scriptContent = document.getElementById('script-editor').value;
+    comm.sendToPrompter({
+      type: 'update',
+      script: scriptContent,
+      settings: { ...settings }
+    });
+  });
+
+  document.getElementById('open-prompter').addEventListener('click', () => {
+    window.open(window.location.pathname + '#prompter', 'protonompter-prompter');
+    // Send data after a brief delay to let the new tab initialize
+    setTimeout(() => {
+      scriptContent = document.getElementById('script-editor').value;
+      comm.sendToPrompter({
+        type: 'update',
+        script: scriptContent,
+        settings: { ...settings }
+      });
+    }, 1000);
+  });
+
+  document.getElementById('reset-position').addEventListener('click', () => {
+    comm.sendToPrompter({ type: 'command', action: 'reset' });
+  });
+
+  document.getElementById('save-defaults').addEventListener('click', () => {
+    try {
+      localStorage.setItem(LS_SETTINGS, JSON.stringify(settings));
+      flashButton('save-defaults', '✓ Saved!');
+    } catch(e) {}
+  });
+
+  document.getElementById('load-defaults').addEventListener('click', () => {
+    try {
+      const saved = localStorage.getItem(LS_SETTINGS);
+      if (saved) {
+        settings = { ...DEFAULTS, ...JSON.parse(saved) };
+        applySettingsToControls();
+        flashButton('load-defaults', '✓ Loaded!');
+      }
+    } catch(e) {}
+  });
+
+  // --- Load saved settings on startup ---
+  try {
+    const saved = localStorage.getItem(LS_SETTINGS);
+    if (saved) {
+      settings = { ...DEFAULTS, ...JSON.parse(saved) };
+      applySettingsToControls();
+    }
+  } catch(e) {}
+
+  // --- Listen for prompter status ---
+  comm.listen('control', (msg) => {
+    if (msg.type === 'status') {
+      prompterState = msg.state;
+      updateConnectionStatus(true, msg.state, msg.speed);
+    } else if (msg.type === 'heartbeat') {
+      updateConnectionStatus(true);
+    }
+  });
+
+  // --- Connection timeout ---
+  let lastHeartbeat = 0;
+  setInterval(() => {
+    if (Date.now() - lastHeartbeat > 5000 && prompterConnected) {
+      updateConnectionStatus(false);
+    }
+  }, 2000);
+
+  function updateConnectionStatus(connected, state, speed) {
+    prompterConnected = connected;
+    if (connected) lastHeartbeat = Date.now();
+
+    const dot = document.getElementById('connection-dot');
+    const label = document.getElementById('connection-label');
+    const stateEl = document.getElementById('playback-state');
+
+    dot.className = 'dot ' + (connected ? 'connected' : 'disconnected');
+    label.textContent = connected ? 'Prompter connected' : 'Prompter disconnected';
+
+    if (state) {
+      stateEl.textContent = state.toUpperCase();
+      stateEl.className = 'cr-playback-state ' + state;
+    }
+  }
+
+  function applySettingsToControls() {
+    fontSizeSlider.value = settings.fontSize;
+    fontSizeVal.textContent = settings.fontSize + 'px';
+    textWidthSlider.value = settings.textWidth;
+    textWidthVal.textContent = settings.textWidth + '%';
+    document.getElementById('mirror-h').checked = settings.mirrorH;
+    document.getElementById('mirror-v').checked = settings.mirrorV;
+    speedSlider.value = settings.scrollSpeed;
+    speedVal.textContent = (settings.scrollSpeed / 60).toFixed(1) + 'x';
+    document.getElementById('countdown-toggle').checked = settings.countdownEnabled;
+    document.getElementById('countdown-duration').value = settings.countdownDuration;
+    // Update color swatches
+    document.querySelectorAll('.color-swatch').forEach(s => {
+      const idx = parseInt(s.dataset.index);
+      const preset = COLOR_PRESETS[idx];
+      const isActive = settings.bgColor === preset.bg && settings.textColor === preset.text;
+      s.classList.toggle('active', isActive);
+      s.style.borderColor = isActive ? 'var(--accent)' : (preset.bg === '#000000' ? '#333' : 'transparent');
+    });
+  }
+
+  function flashButton(id, text) {
+    const btn = document.getElementById(id);
+    const orig = btn.textContent;
+    btn.textContent = text;
+    btn.style.color = 'var(--success)';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1500);
+  }
+}
+
+// =============================================
+// PROMPTER
+// =============================================
+function initPrompter() {
+  document.title = 'Protonompter — Display';
+
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div id="prompter-view">
+      <div id="prompter-viewport">
+        <div id="mirror-wrapper">
+          <div id="scroll-container">
+            <div id="script-display"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="speed-indicator">1.0x</div>
+      <div id="position-indicator">0%</div>
+      <div id="play-indicator">▶</div>
+      <div id="end-marker">— END —</div>
+
+      <div id="countdown-overlay">
+        <div id="countdown-text">3</div>
+        <div id="countdown-subtitle">Get Ready</div>
+      </div>
+
+      <div id="waiting-message">
+        <div class="wm-atom">⚛️</div>
+        <div class="wm-title">Protonompter</div>
+        <div class="wm-sub">Waiting for script from Control Room...</div>
+        <div class="wm-sub" style="font-size:13px; margin-top:8px; color:#555;">Open the Control tab and click "Send to Prompter"</div>
+      </div>
+    </div>
+  `;
+
+  // --- Elements ---
+  const prompterView = document.getElementById('prompter-view');
+  const scrollContainer = document.getElementById('scroll-container');
+  const mirrorWrapper = document.getElementById('mirror-wrapper');
+  const scriptDisplay = document.getElementById('script-display');
+  const speedIndicator = document.getElementById('speed-indicator');
+  const posIndicator = document.getElementById('position-indicator');
+  const playIndicator = document.getElementById('play-indicator');
+  const endMarker = document.getElementById('end-marker');
+  const countdownOverlay = document.getElementById('countdown-overlay');
+  const countdownText = document.getElementById('countdown-text');
+  const waitingMessage = document.getElementById('waiting-message');
+
+  // --- Prompter State ---
+  let currentScript = '';
+  let currentSettings = { ...DEFAULTS };
+  let scrollSpeed = DEFAULTS.scrollSpeed;
+  let isPlaying = false;
+  let hasScript = false;
+  let rightBtnDown = false;
+  let animFrame = null;
+  let lastFrameTime = null;
+  let countdownActive = false;
+  let firstClick = true; // First click triggers countdown if enabled
+
+  // --- Apply Settings ---
+  function applySettings(s) {
+    currentSettings = { ...s };
+    scrollSpeed = s.scrollSpeed;
+
+    // Script display styling
+    scriptDisplay.style.fontSize = s.fontSize + 'px';
+    scriptDisplay.style.maxWidth = s.textWidth + '%';
+    scriptDisplay.style.color = s.textColor;
+
+    // Background
+    prompterView.style.background = s.bgColor;
+
+    // Speed & position indicator colors
+    speedIndicator.style.color = s.textColor;
+    posIndicator.style.color = s.textColor;
+    playIndicator.style.color = s.textColor;
+    endMarker.style.color = s.textColor;
+
+    // Mirror transforms
+    const sx = s.mirrorH ? -1 : 1;
+    const sy = s.mirrorV ? -1 : 1;
+    mirrorWrapper.style.transform = `scale(${sx}, ${sy})`;
+
+    // Line height scales nicely with font size
+    scriptDisplay.style.lineHeight = s.fontSize > 60 ? '1.4' : '1.5';
+  }
+
+  // --- Load Script ---
+  function loadScript(text) {
+    currentScript = text;
+    scriptDisplay.textContent = text;
+    hasScript = true;
+    waitingMessage.classList.add('hidden');
+    firstClick = true;
+
+    // Reset scroll position
+    scrollContainer.scrollTop = 0;
+
+    sendStatus();
+  }
+
+  // --- Scroll Engine ---
+  function startScrollLoop() {
+    function frame(timestamp) {
+      if (lastFrameTime === null) lastFrameTime = timestamp;
+      const delta = (timestamp - lastFrameTime) / 1000;
+      lastFrameTime = timestamp;
+
+      if (isPlaying && !countdownActive) {
+        const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+        const newPos = scrollContainer.scrollTop + (scrollSpeed * delta);
+
+        if (newPos >= maxScroll) {
+          scrollContainer.scrollTop = maxScroll;
+          isPlaying = false;
+          endMarker.classList.add('visible');
+          sendStatus();
+        } else {
+          scrollContainer.scrollTop = newPos;
+        }
+      }
+
+      animFrame = requestAnimationFrame(frame);
+    }
+    animFrame = requestAnimationFrame(frame);
+  }
+
+  // --- Play/Pause ---
+  function togglePlay() {
+    if (countdownActive) return;
+
+    if (!isPlaying) {
+      // Check if at end, reset if so
+      const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+      if (scrollContainer.scrollTop >= maxScroll - 5) {
+        scrollContainer.scrollTop = 0;
+      }
+      endMarker.classList.remove('visible');
+
+      if (firstClick && currentSettings.countdownEnabled) {
+        firstClick = false;
+        startCountdown(() => {
+          isPlaying = true;
+          lastFrameTime = null;
+          flashPlay('▶');
+          sendStatus();
+        });
+      } else {
+        isPlaying = true;
+        lastFrameTime = null;
+        flashPlay('▶');
+        sendStatus();
+      }
+    } else {
+      isPlaying = false;
+      flashPlay('⏸');
+      sendStatus();
+    }
+  }
+
+  // --- Countdown ---
+  function startCountdown(onComplete) {
+    countdownActive = true;
+    let count = currentSettings.countdownDuration;
+    countdownOverlay.classList.add('active');
+    countdownText.textContent = count;
+
+    const interval = setInterval(() => {
+      count--;
+      if (count > 0) {
+        countdownText.textContent = count;
+        countdownText.style.transform = 'scale(1.2)';
+        setTimeout(() => { countdownText.style.transform = 'scale(1)'; }, 150);
+      } else if (count === 0) {
+        countdownText.textContent = 'GO';
+        countdownText.style.transform = 'scale(1.3)';
+      } else {
+        clearInterval(interval);
+        countdownOverlay.classList.remove('active');
+        countdownText.style.transform = 'scale(1)';
+        countdownActive = false;
+        onComplete();
+      }
+    }, 1000);
+  }
+
+  // --- Speed Indicator ---
+  let speedTimeout;
+  function showSpeedIndicator() {
+    speedIndicator.textContent = (scrollSpeed / 60).toFixed(1) + 'x';
+    speedIndicator.classList.add('visible');
+    clearTimeout(speedTimeout);
+    speedTimeout = setTimeout(() => speedIndicator.classList.remove('visible'), 2000);
+  }
+
+  // --- Position Indicator ---
+  let posTimeout;
+  function showPositionIndicator() {
+    const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+    const pct = maxScroll > 0 ? Math.round((scrollContainer.scrollTop / maxScroll) * 100) : 0;
+    posIndicator.textContent = pct + '%';
+    posIndicator.classList.add('visible');
+    clearTimeout(posTimeout);
+    posTimeout = setTimeout(() => posIndicator.classList.remove('visible'), 2000);
+  }
+
+  // --- Play/Pause Flash ---
+  function flashPlay(symbol) {
+    playIndicator.textContent = symbol;
+    playIndicator.classList.add('flash');
+    setTimeout(() => playIndicator.classList.remove('flash'), 300);
+  }
+
+  // --- Send Status to Control ---
+  function sendStatus() {
+    const state = isPlaying ? 'playing' : 'stopped';
+    comm.sendToControl({
+      type: 'status',
+      state: state,
+      speed: scrollSpeed
+    });
+  }
+
+  // --- Heartbeat ---
+  setInterval(() => {
+    comm.sendToControl({ type: 'heartbeat' });
+  }, 2000);
+
+  // --- Mouse Controls ---
+  prompterView.addEventListener('mousedown', (e) => {
+    if (!hasScript) return;
+    if (e.button === 0 && !rightBtnDown) { // Left click
+      e.preventDefault();
+      togglePlay();
+    } else if (e.button === 2) { // Right button down
+      rightBtnDown = true;
+      e.preventDefault();
+    }
+  });
+
+  prompterView.addEventListener('mouseup', (e) => {
+    if (e.button === 2) {
+      rightBtnDown = false;
+    }
+  });
+
+  // Also handle right button release outside the window
+  window.addEventListener('mouseup', (e) => {
+    if (e.button === 2) rightBtnDown = false;
+  });
+
+  prompterView.addEventListener('wheel', (e) => {
+    if (!hasScript) return;
+    e.preventDefault();
+
+    if (rightBtnDown) {
+      // SCRUB: move text position
+      const scrubAmount = e.deltaY * 3;
+      const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+      scrollContainer.scrollTop = Math.max(0, Math.min(scrollContainer.scrollTop + scrubAmount, maxScroll));
+
+      // Hide/show end marker
+      if (scrollContainer.scrollTop < maxScroll - 5) {
+        endMarker.classList.remove('visible');
+      }
+
+      showPositionIndicator();
+    } else {
+      // SPEED: adjust scroll speed
+      const speedDelta = -e.deltaY * 0.3;
+      scrollSpeed = Math.max(10, Math.min(200, scrollSpeed + speedDelta));
+      showSpeedIndicator();
+      sendStatus();
+    }
+  }, { passive: false });
+
+  // Prevent context menu
+  prompterView.addEventListener('contextmenu', (e) => e.preventDefault());
+
+  // --- Keyboard Controls ---
+  document.addEventListener('keydown', (e) => {
+    if (!hasScript) return;
+
+    switch(e.key) {
+      case ' ':
+        e.preventDefault();
+        togglePlay();
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        scrollSpeed = Math.min(200, scrollSpeed + 5);
+        showSpeedIndicator();
+        sendStatus();
+        break;
+      case 'ArrowDown':
+        e.preventDefault();
+        scrollSpeed = Math.max(10, scrollSpeed - 5);
+        showSpeedIndicator();
+        sendStatus();
+        break;
+      case 'Home':
+        e.preventDefault();
+        scrollContainer.scrollTop = 0;
+        showPositionIndicator();
+        break;
+      case 'End':
+        e.preventDefault();
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        showPositionIndicator();
+        break;
+    }
+  });
+
+  // --- Fullscreen on Double Click ---
+  prompterView.addEventListener('dblclick', (e) => {
+    e.preventDefault();
+    if (!document.fullscreenElement) {
+      prompterView.requestFullscreen?.() || prompterView.webkitRequestFullscreen?.();
+    } else {
+      document.exitFullscreen?.() || document.webkitExitFullscreen?.();
+    }
+  });
+
+  // --- Cursor Hiding ---
+  let cursorTimeout;
+  prompterView.addEventListener('mousemove', () => {
+    prompterView.classList.remove('cursor-hidden');
+    clearTimeout(cursorTimeout);
+    cursorTimeout = setTimeout(() => {
+      if (isPlaying) prompterView.classList.add('cursor-hidden');
+    }, 2000);
+  });
+
+  // --- Listen for Control Messages ---
+  comm.listen('prompter', (msg) => {
+    if (msg.type === 'update') {
+      if (msg.settings) applySettings(msg.settings);
+      if (msg.script !== undefined) loadScript(msg.script);
+    } else if (msg.type === 'command') {
+      if (msg.action === 'reset') {
+        isPlaying = false;
+        scrollContainer.scrollTop = 0;
+        firstClick = true;
+        endMarker.classList.remove('visible');
+        sendStatus();
+        showPositionIndicator();
+      }
+    }
+  });
+
+  // --- Apply defaults and start ---
+  applySettings(currentSettings);
+  startScrollLoop();
+
+  // Announce presence
+  comm.sendToControl({ type: 'heartbeat' });
+}
+
+// =============================================
+// UTILITIES
+// =============================================
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+</script>
+</body>
+</html>
