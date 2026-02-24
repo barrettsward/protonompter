@@ -2,7 +2,7 @@
 
 **Always positive. Always on cue.**
 
-A portable, zero-install, browser-based teleprompter built for Sammie at the [Covenant Health Proton Center](https://www.covenanthealth.com/). Because proton therapy is RAD — and so is reading from a teleprompter without needing admin rights.
+A portable, zero-install, browser-based teleprompter built for Sammie at the [Covenant Health Proton Center](https://www.covenanthealth.com/covenant-health-proton-center/). Because proton therapy is RAD — and so is reading from a teleprompter without needing admin rights.
 
 > **Fun fact:** Proton + Teleprompter = Protonompter. Yes, we know. We're very clever. 😏
 
@@ -12,7 +12,7 @@ A portable, zero-install, browser-based teleprompter built for Sammie at the [Co
 
 Protonompter is a **single HTML file** that turns any two browser tabs into a fully functional teleprompter system. No installation. No server. No admin rights. No dependencies. Just open the file and go.
 
-It was designed for locked-down hospital PCs where you can't install software but you CAN open a browser. It works with mirror teleprompter setups (the kind where a camera sits behind one-way glass and a screen reflects text up onto the glass).
+It was designed for locked-down healthcare system PCs where you can't install software but you CAN open a browser. It works with mirror teleprompter setups (the kind where a camera sits behind one-way glass and a screen reflects text up onto the glass).
 
 ---
 
@@ -144,12 +144,12 @@ The app comes pre-loaded with **"The Little Proton That Could Fix Things by Brea
 ## 👏 Credits
 
 ### Built By
-**Claude** (Anthropic's AI assistant, Opus 4.6 model) — who wrote every line of code, all the CSS animations, the dad jokes, AND this README. Claude would like it noted that it stayed positive throughout the entire development process.
+**Claude** (Anthropic's AI assistant, Opus 4.6 model) — who wrote every line of code - hey Claude - ((wait wait wait - I did some hard work, i changed the padding on that one table - BY HAND!) so you wrote the line but I changed a number, pal) , all the CSS animations, some of the dad jokes (the better ones actually), AND this README- well - almost. Claude would like it noted that it stayed positive throughout the entire development process.
 
-**Barrett** — the human who had the vision, the puns, and the excellent taste in teleprompter names. Also responsible for the immortal observation that "proton therapy is RAD."
+**Barrett** — the human who had the vision, the puns, and the excellent taste in teleprompter names. Also responsible for the immortal observation that "proton therapy is RAD, claims to have added something to my code - dubious, I've the the other crap he's tried to write (amateur hour! - Fortran... really?)."
 
 ### Built For
-**Sammie** at the **Covenant Health Proton Center** — who needed a teleprompter and got a whole proton-themed experience instead.
+**Our Friends** at the **Covenant Health Proton Center** — who needed a teleprompter and got a whole proton-themed experience instead.
 
 ### Powered By
 **Protons** — tiny, positive, and capable of fixing things by breaking them since the beginning of the universe. They asked us to remind you that they never complain, they never go negative, and they always deliver their energy exactly where it's needed. Be like a proton.
@@ -172,4 +172,4 @@ This project is provided as-is for use at Covenant Health Proton Center. Feel fr
 
 Made with ⚛️ and ❤️
 
-*Remember: every proton carries a positive charge, and every patient carries our hearts.*
+*Remember: every proton carries a positive charge, and every patient carries our hearts. more hearts in more places - even github.*
