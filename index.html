@@ -490,6 +490,37 @@ input[type="range"]::-moz-range-thumb {
 }
 #end-marker.visible { opacity: 1; }
 
+/* Guide Line — the reading focus line */
+#guide-line {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 2px solid rgba(255, 50, 50, 0.5);
+  pointer-events: none;
+  z-index: 90;
+  transition: opacity 0.3s;
+}
+#guide-line .guide-arrow-left,
+#guide-line .guide-arrow-right {
+  position: absolute;
+  top: -8px;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+}
+#guide-line .guide-arrow-left {
+  left: 8px;
+  border-left: 10px solid rgba(255, 50, 50, 0.6);
+}
+#guide-line .guide-arrow-right {
+  right: 8px;
+  border-right: 10px solid rgba(255, 50, 50, 0.6);
+}
+#guide-line.hidden { opacity: 0; }
+
 /* --- Animations --- */
 @keyframes pulse {
   0%, 100% { transform: scale(1); opacity: 0.7; }
@@ -629,6 +660,7 @@ const DEFAULTS = {
   scrollSpeed: 60,
   countdownEnabled: true,
   countdownDuration: 3,
+  guideLine: true,
 };
 
 // --- COLOR PRESETS ---
@@ -768,6 +800,13 @@ function initControlRoom() {
                 Mirror Vertical
               </label>
             </div>
+            <div class="setting-row">
+              <label class="toggle-wrap">
+                <input type="checkbox" id="guide-line-toggle" ${settings.guideLine ? 'checked' : ''}>
+                <span class="toggle-switch"></span>
+                Guide Line
+              </label>
+            </div>
           </div>
 
           <!-- Color Settings -->
@@ -866,6 +905,9 @@ function initControlRoom() {
   });
   document.getElementById('mirror-v').addEventListener('change', (e) => {
     settings.mirrorV = e.target.checked;
+  });
+  document.getElementById('guide-line-toggle').addEventListener('change', (e) => {
+    settings.guideLine = e.target.checked;
   });
 
   const speedSlider = document.getElementById('scroll-speed');
@@ -978,6 +1020,7 @@ function initControlRoom() {
     textWidthVal.textContent = settings.textWidth + '%';
     document.getElementById('mirror-h').checked = settings.mirrorH;
     document.getElementById('mirror-v').checked = settings.mirrorV;
+    document.getElementById('guide-line-toggle').checked = settings.guideLine;
     speedSlider.value = settings.scrollSpeed;
     speedVal.textContent = (settings.scrollSpeed / 60).toFixed(1) + 'x';
     document.getElementById('countdown-toggle').checked = settings.countdownEnabled;
@@ -1018,6 +1061,10 @@ function initPrompter() {
         </div>
       </div>
 
+      <div id="guide-line">
+        <div class="guide-arrow-left"></div>
+        <div class="guide-arrow-right"></div>
+      </div>
       <div id="speed-indicator">1.0x</div>
       <div id="position-indicator">0%</div>
       <div id="play-indicator">▶</div>
@@ -1046,6 +1093,7 @@ function initPrompter() {
   const posIndicator = document.getElementById('position-indicator');
   const playIndicator = document.getElementById('play-indicator');
   const endMarker = document.getElementById('end-marker');
+  const guideLine = document.getElementById('guide-line');
   const countdownOverlay = document.getElementById('countdown-overlay');
   const countdownText = document.getElementById('countdown-text');
   const waitingMessage = document.getElementById('waiting-message');
@@ -1088,6 +1136,9 @@ function initPrompter() {
 
     // Line height scales nicely with font size
     scriptDisplay.style.lineHeight = s.fontSize > 60 ? '1.4' : '1.5';
+
+    // Guide line visibility
+    guideLine.classList.toggle('hidden', !s.guideLine);
   }
 
   // --- Load Script ---
