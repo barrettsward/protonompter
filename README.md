@@ -147,11 +147,11 @@ The two tabs communicate via the **BroadcastChannel API** with a **localStorage 
 
 ## 🧬 The Seed Script
 
-The app comes pre-loaded with **"The Little Proton That Could Fix Things by Breaking Them"** — a heartwarming and scientifically adjacent tale about Pete the Proton, featuring:
-- Proton therapy education disguised as a children's story
-- An unreasonable number of dad jokes
-- Important life lessons about staying positive (it's literally the only option)
-- A cameo by Sammie the therapist
+The app comes pre-loaded with **"An Every Changing Script"** — some are heartwardming some lean hard into science:
+- You may see - Proton therapy education disguised as a children's story
+- You will see - An unreasonable number of dad jokes
+- You'll always leave with - Important life lessons about staying positive (it's literally the only option)
+
 
 ---
 
