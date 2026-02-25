@@ -39,17 +39,30 @@ It was designed for locked-down healthcare system PCs where you can't install so
 
 ### Teleprompter Display (Tab B) Features
 - 🖥️ Clean, distraction-free display — nothing but your script text
-- 🖱️ **THE KILLER MOUSE CONTROLS:**
+- 🖱️ **Mouse controls:**
 
 | Input | What It Does |
 |---|---|
 | **Left Click** | Start / Pause scrolling |
-| **Scroll Wheel** | Adjust scroll speed (up = faster, down = slower) |
-| **Right Click + Hold + Scroll** | Scrub through the script (manual position control — works while playing OR paused!) |
+| **Scroll Wheel (while playing)** | Adjust scroll speed (0.5x steps) |
+| **Shift + Scroll (while playing)** | Fine speed adjustment (0.1x steps) |
+| **Scroll Wheel (while paused)** | Scrub through the script |
+| **Right Click + Hold + Scroll** | Scrub through the script (works while playing or paused) |
 | **Double Click** | Toggle fullscreen |
-| **Space Bar** | Start / Pause (keyboard alternative) |
-| **Arrow Up/Down** | Adjust speed (keyboard alternative) |
-| **Home / End** | Jump to beginning / end of script |
+
+- ⌨️ **Keyboard controls:**
+
+| Key | What It Does |
+|---|---|
+| **Space** | Start / Pause |
+| **↑ / ↓** or **W / S** | Scrub position (200px per press) |
+| **← / →** or **A / D** | Adjust speed (0.5x per press) |
+| **Shift + ← / →** | Fine speed adjustment (0.1x per press) |
+| **' (apostrophe)** | Jump to top of script |
+| **/ (slash)** | Jump to end of script |
+| **Home / End** | Jump to top / end (non-Mac keyboards) |
+| **Page Up / Page Down** | Large scrub jumps (50% of screen height) |
+| **F** | Toggle fullscreen |
 
 - 🎯 Subtle **speed indicator** (bottom-right) — shows current speed, fades out after 2 seconds
 - 📍 **Position indicator** (bottom-left) — shows scroll position as percentage when scrubbing
@@ -121,8 +134,9 @@ The two tabs communicate via the **BroadcastChannel API** with a **localStorage 
 ### Scroll Engine
 - Uses `requestAnimationFrame` with delta-time calculation for butter-smooth scrolling
 - Speed measured in pixels/second (default 60px/s ≈ news-anchor reading pace)
-- Speed range: 10px/s (slow crawl) to 200px/s (speed reader)
-- Scroll wheel adjusts in fine increments (~0.3 px/s per tick)
+- Speed range: 10px/s (slow crawl) to 300px/s (speed reader)
+- Sub-pixel accumulator ensures smooth slow speeds in Safari (which rounds `scrollTop` to integers)
+- Scroll wheel: 0.5x steps coarse, 0.1x steps with Shift held
 
 ### Settings Persistence
 - Settings are saved to `localStorage` when you click "Save Current"
@@ -163,6 +177,35 @@ The app comes pre-loaded with **"The Little Proton That Could Fix Things by Brea
 - Why did the proton go to therapy? It had too much **energy** to contain.
 - What do you call a group of protons on a road trip? A **positive** charge ahead.
 - Why don't protons ever get lost? They always follow the **beam** path.
+
+---
+
+---
+
+## 📋 Changelog
+
+### v1.2 — Controls Update
+- **Mirror + Countdown fix:** Countdown overlay now correctly inherits horizontal/vertical mirror transforms — numbers no longer appear backwards when using a physical mirror setup
+- **Keyboard controls — reworked:**
+  - `↑ / ↓` (and `W / S`) now **scrub position** through the script
+  - `← / →` (and `A / D`) now **adjust speed**
+  - `'` (apostrophe) = jump to top, `/` (slash) = jump to end — Mac-friendly, no Fn key needed
+  - `F` = fullscreen toggle
+  - `Page Up / Down` = large scrub jumps
+  - Shift+arrow = fine speed adjustment
+- **Mouse speed control:**
+  - Scroll while **playing** = adjust speed (0.5x steps coarse, Shift+scroll for 0.1x fine)
+  - Scroll while **paused** = scrub position (no modifier needed)
+  - Right-click + scroll = scrub always (unchanged)
+- **Higher speed ceiling:** Max speed raised from 3.3x to 5.0x (300 px/s)
+- **Safari slow-speed fix:** Sub-pixel scroll accumulator prevents freeze at speeds below 1.0x in Safari
+- **Control Room:** Quick reference hint boxes added below settings showing all mouse and keyboard controls
+
+### v1.0 — Initial Release
+- Two-tab teleprompter system (Control Room + Display)
+- BroadcastChannel + localStorage communication
+- Mirror horizontal/vertical, color presets, countdown timer
+- Mouse controls: click play/pause, scroll speed, right-click scrub
 
 ---
 

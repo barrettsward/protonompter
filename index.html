@@ -527,6 +527,26 @@ input[type="range"]::-moz-range-thumb {
   50% { transform: scale(1.1); opacity: 1; }
 }
 
+/* Quick Reference Hint Boxes */
+.hint-box {
+  background: var(--bg-input);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 11px;
+}
+.hint-box .hint-title {
+  font-weight: 700;
+  color: var(--text-secondary);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+}
+.hint-box .hint-row {
+  color: #606080;
+  line-height: 1.85;
+}
+
 /* --- Responsive --- */
 @media (max-width: 800px) {
   .cr-main { grid-template-columns: 1fr; }
@@ -538,7 +558,7 @@ input[type="range"]::-moz-range-thumb {
 <div id="app"></div>
 <script>
 // ============================================
-// PROTONOMPTER v1.0
+// PROTONOMPTER v1.2
 // A browser-based teleprompter
 // Always positive. Always on cue.
 // ============================================
@@ -823,7 +843,7 @@ function initControlRoom() {
               <span class="setting-value" id="speed-val">${(settings.scrollSpeed / 60).toFixed(1)}x</span>
             </div>
             <div class="setting-row-full">
-              <input type="range" id="scroll-speed" min="10" max="200" step="5" value="${settings.scrollSpeed}">
+              <input type="range" id="scroll-speed" min="10" max="300" step="5" value="${settings.scrollSpeed}">
             </div>
             <div class="setting-row">
               <label class="toggle-wrap">
@@ -845,6 +865,29 @@ function initControlRoom() {
             <div style="display:flex;gap:8px;">
               <button class="btn btn-secondary btn-sm" id="save-defaults" style="flex:1;">Save Current</button>
               <button class="btn btn-secondary btn-sm" id="load-defaults" style="flex:1;">Load Saved</button>
+            </div>
+          </div>
+
+          <!-- Quick Reference -->
+          <div class="settings-group">
+            <h3>📋 Prompter Controls</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div class="hint-box">
+                <div class="hint-title">🖱️ Mouse</div>
+                <div class="hint-row">Click — Play / Pause</div>
+                <div class="hint-row">Scroll playing — Speed</div>
+                <div class="hint-row">Scroll paused — Scrub</div>
+                <div class="hint-row">Right+Scroll — Scrub</div>
+                <div class="hint-row">Double-click — Fullscreen</div>
+              </div>
+              <div class="hint-box">
+                <div class="hint-title">⌨️ Keys</div>
+                <div class="hint-row">Space — Play / Pause</div>
+                <div class="hint-row">↑↓ / W S — Scrub</div>
+                <div class="hint-row">←→ / A D — Speed</div>
+                <div class="hint-row">' — Top &nbsp;&nbsp; / — End</div>
+                <div class="hint-row">F — Fullscreen</div>
+              </div>
             </div>
           </div>
         </div>
@@ -1109,6 +1152,7 @@ function initPrompter() {
   let lastFrameTime = null;
   let countdownActive = false;
   let firstClick = true; // First click triggers countdown if enabled
+  let scrollAccum = 0; // Sub-pixel accumulator — fixes Safari integer scrollTop rounding
 
   // --- Apply Settings ---
   function applySettings(s) {
@@ -1129,10 +1173,11 @@ function initPrompter() {
     playIndicator.style.color = s.textColor;
     endMarker.style.color = s.textColor;
 
-    // Mirror transforms
+    // Mirror transforms — apply to both script wrapper and countdown overlay
     const sx = s.mirrorH ? -1 : 1;
     const sy = s.mirrorV ? -1 : 1;
     mirrorWrapper.style.transform = `scale(${sx}, ${sy})`;
+    countdownOverlay.style.transform = `scale(${sx}, ${sy})`;
 
     // Line height scales nicely with font size
     scriptDisplay.style.lineHeight = s.fontSize > 60 ? '1.4' : '1.5';
@@ -1164,15 +1209,23 @@ function initPrompter() {
 
       if (isPlaying && !countdownActive) {
         const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
-        const newPos = scrollContainer.scrollTop + (scrollSpeed * delta);
 
-        if (newPos >= maxScroll) {
-          scrollContainer.scrollTop = maxScroll;
-          isPlaying = false;
-          endMarker.classList.add('visible');
-          sendStatus();
-        } else {
-          scrollContainer.scrollTop = newPos;
+        // Accumulate fractional pixels — fixes Safari rounding scrollTop to integers
+        // which caused the scroll to freeze at speeds below 1.0x (~60 px/s)
+        scrollAccum += scrollSpeed * delta;
+        const intPixels = Math.floor(scrollAccum);
+        if (intPixels >= 1) {
+          scrollAccum -= intPixels;
+          const newPos = scrollContainer.scrollTop + intPixels;
+          if (newPos >= maxScroll) {
+            scrollContainer.scrollTop = maxScroll;
+            isPlaying = false;
+            scrollAccum = 0;
+            endMarker.classList.add('visible');
+            sendStatus();
+          } else {
+            scrollContainer.scrollTop = newPos;
+          }
         }
       }
 
@@ -1309,22 +1362,21 @@ function initPrompter() {
     if (!hasScript) return;
     e.preventDefault();
 
-    if (rightBtnDown) {
-      // SCRUB: move text position
+    if (rightBtnDown || !isPlaying) {
+      // SCRUB: right-click+scroll always scrubs; plain scroll also scrubs when paused/stopped
       const scrubAmount = e.deltaY * 3;
       const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
       scrollContainer.scrollTop = Math.max(0, Math.min(scrollContainer.scrollTop + scrubAmount, maxScroll));
-
-      // Hide/show end marker
       if (scrollContainer.scrollTop < maxScroll - 5) {
         endMarker.classList.remove('visible');
       }
-
       showPositionIndicator();
     } else {
-      // SPEED: adjust scroll speed
-      const speedDelta = -e.deltaY * 0.3;
-      scrollSpeed = Math.max(10, Math.min(200, scrollSpeed + speedDelta));
+      // SPEED: plain scroll while playing adjusts speed
+      // Shift+scroll = fine (0.1x/notch), plain = coarse (0.5x/notch)
+      const multiplier = e.shiftKey ? 0.06 : 0.3;
+      const speedDelta = -e.deltaY * multiplier;
+      scrollSpeed = Math.max(10, Math.min(300, scrollSpeed + speedDelta));
       showSpeedIndicator();
       sendStatus();
     }
@@ -1337,32 +1389,116 @@ function initPrompter() {
   document.addEventListener('keydown', (e) => {
     if (!hasScript) return;
 
+    // Coarse vs fine speed step: Shift held = fine (6 px/s = 0.1x), plain = coarse (30 px/s = 0.5x)
+    const speedStep = e.shiftKey ? 6 : 30;
+    // Scrub amount: 200px per arrow press
+    const SCRUB_PX = 200;
+
     switch(e.key) {
+      // --- Play / Pause ---
       case ' ':
         e.preventDefault();
         togglePlay();
         break;
+
+      // --- Scrub: Up / W ---
       case 'ArrowUp':
+      case 'w':
+      case 'W':
         e.preventDefault();
-        scrollSpeed = Math.min(200, scrollSpeed + 5);
-        showSpeedIndicator();
-        sendStatus();
+        scrollContainer.scrollTop = Math.max(0, scrollContainer.scrollTop - SCRUB_PX);
+        endMarker.classList.remove('visible');
+        showPositionIndicator();
         break;
+
+      // --- Scrub: Down / S ---
       case 'ArrowDown':
+      case 's':
+      case 'S': {
         e.preventDefault();
-        scrollSpeed = Math.max(10, scrollSpeed - 5);
+        const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+        scrollContainer.scrollTop = Math.min(maxScroll, scrollContainer.scrollTop + SCRUB_PX);
+        showPositionIndicator();
+        break;
+      }
+
+      // --- Speed: Left / A ---
+      case 'ArrowLeft':
+      case 'a':
+      case 'A':
+        e.preventDefault();
+        scrollSpeed = Math.max(10, scrollSpeed - speedStep);
         showSpeedIndicator();
         sendStatus();
         break;
+
+      // --- Speed: Right / D ---
+      case 'ArrowRight':
+      case 'd':
+      case 'D':
+        e.preventDefault();
+        scrollSpeed = Math.min(300, scrollSpeed + speedStep);
+        showSpeedIndicator();
+        sendStatus();
+        break;
+
+      // --- Jump to Top: ' (apostrophe) — top of keyboard, top of script ---
+      case "'":
+        e.preventDefault();
+        scrollContainer.scrollTop = 0;
+        scrollAccum = 0;
+        endMarker.classList.remove('visible');
+        showPositionIndicator();
+        break;
+
+      // --- Jump to End: / (slash) — bottom of keyboard, end of script ---
+      case '/':
+        e.preventDefault();
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        showPositionIndicator();
+        break;
+
+      // --- Also keep Home/End for non-Mac keyboards ---
       case 'Home':
         e.preventDefault();
         scrollContainer.scrollTop = 0;
+        scrollAccum = 0;
+        endMarker.classList.remove('visible');
         showPositionIndicator();
         break;
       case 'End':
         e.preventDefault();
         scrollContainer.scrollTop = scrollContainer.scrollHeight;
         showPositionIndicator();
+        break;
+
+      // --- Page Up/Down: large scrub jumps ---
+      case 'PageUp': {
+        e.preventDefault();
+        const jump = scrollContainer.clientHeight * 0.5;
+        scrollContainer.scrollTop = Math.max(0, scrollContainer.scrollTop - jump);
+        endMarker.classList.remove('visible');
+        showPositionIndicator();
+        break;
+      }
+      case 'PageDown': {
+        e.preventDefault();
+        const maxSc = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+        const jumpD = scrollContainer.clientHeight * 0.5;
+        scrollContainer.scrollTop = Math.min(maxSc, scrollContainer.scrollTop + jumpD);
+        showPositionIndicator();
+        break;
+      }
+
+      // --- Fullscreen: F ---
+      case 'f':
+      case 'F':
+        e.preventDefault();
+        if (!document.fullscreenElement) {
+          prompterView.requestFullscreen?.() || prompterView.webkitRequestFullscreen?.();
+        } else {
+          document.exitFullscreen?.() || document.webkitExitFullscreen?.();
+        }
         break;
     }
   });
