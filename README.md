@@ -191,13 +191,16 @@ Version anchors used in this repo:
 ### What Changed From v1.0 to v1.2
 - Added a **reading guide line overlay** in the prompter plus a Control Room toggle.
 - Fixed **mirror + countdown behavior** so countdown text mirrors correctly with H/V mirror settings.
-- Reworked **keyboard controls** so `↑ / ↓` and `W / S` scrub position, while `← / →` and `A / D` adjust speed.
+- Reworked **keyboard controls** so `↑ / ↓` and `W / S` scrub position, while `← / →` and `A / D` adjust speed, Spacebar to start and stop.
 - Added keyboard shortcuts for prompter navigation: `Shift + ← / →` for fine speed, `'` for top, `/` for end, `Page Up / Page Down` for large jumps, and `F` for fullscreen.
 - Reworked **mouse wheel behavior**: while playing, wheel adjusts speed (coarse by default, fine with `Shift`); while paused/stopped, wheel scrubs position; right-click + wheel remains always-scrub.
 - Increased max speed from **200 px/s to 300 px/s** (about `3.3x` to `5.0x`).
 - Added a **Safari slow-speed fix** using sub-pixel accumulation for smooth low-speed scrolling.
 - Added **in-app controls reference boxes** in the Control Room.
 - Updated documentation to reflect the controls overhaul.
+- Added dark mode light mode switch to upper right, Control Room only.
+- Added version number. 
+
 
 ### v1.0 — Initial Release
 - Two-tab teleprompter system (Control Room + Display)
