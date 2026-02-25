@@ -2,151 +2,110 @@
 
 **Get it. Pull it. Read it. Stay positive.**
 
-A step-by-step guide for getting Protonompter set up on your personal Windows PC so you can always have the latest version with one simple command.
-
-> **What we're doing:** Installing Git (a free tool), downloading the Protonompter project once, and then using `git pull` anytime you want the latest version. That's it. Five minutes, tops.
+Quick-start for getting Protonompter cloned on your personal Windows machine so updates are just a `git pull` away.
 
 ---
 
-## Step 1: Install Git
+## Step 1: Git for Windows
 
-Git is a free tool that developers use to manage code. You're going to use approximately 1% of what it can do, and that 1% is going to feel like magic.
+If you've already got Git on this machine (check with `git --version` in a terminal), skip ahead. If this is a fresh Windows install:
 
-1. Open your browser and go to: **https://git-scm.com/downloads/win**
-2. The download should start automatically — if not, click the **"Click here to download manually"** link
-3. Run the installer
-4. **Click "Next" on every screen.** Seriously — the defaults are fine. You do not need to understand what a "line ending" is or have opinions about credential helpers. Just keep clicking Next like you're accepting a Terms of Service you'll never read.
-5. Click **"Install"**, then **"Finish"**
+1. Grab the installer: **https://git-scm.com/downloads/win**
+2. Run it — defaults are fine all the way through
 
-> **That's it.** Git is now on your machine. You will never need to install it again. One and done, like a proton hitting its target. ⚛️
+> **Note for Python folks:** If you installed Git via conda or another package manager, that works too. As long as `git` is on your PATH, you're good.
 
 ---
 
-## Step 2: Clone the Repository (One-Time Download)
+## Step 2: Clone the Repo
 
-"Clone" is Git-speak for "download the whole project." You only do this once.
+Open a terminal wherever you want the project to live (right-click in File Explorer → **"Open in Terminal"** works great), then:
 
-1. Pick a folder where you want Protonompter to live. Your **Documents** folder is a great choice.
-2. Open **File Explorer** and navigate to that folder
-3. **Right-click** on an empty area in the folder
-4. Click **"Open in Terminal"** (or "Open in Windows Terminal")
+```
+git clone https://github.com/barrettward/protonompter.git
+```
 
-   > **Don't see it?** You can also open Terminal from the Start Menu — search for **"Terminal"** or **"PowerShell"**, open it, and type:
-   > ```
-   > cd Documents
-   > ```
-   > (or whatever folder you picked)
-
-5. In the terminal window, paste this command and press **Enter**:
-
-   ```
-   git clone https://github.com/barrettward/protonompter.git
-   ```
-
-6. You'll see some text scroll by. When it's done, you'll have a new folder called `protonompter` with everything in it.
-
-> **Congratulations!** You just cloned a repo. Put it on your resume. HR won't know the difference.
+One and done, like a proton hitting its target. ⚛️
 
 ---
 
-## Step 3: Open Protonompter
+## Step 3: Run It
 
-1. In File Explorer, open the new **`protonompter`** folder
-2. **Double-click `index.html`**
-3. It opens in your browser. That's the Control Room.
-4. Click **"Open Prompter"** for the display tab
-5. You're in business. Be amazing.
+Double-click `index.html` in the cloned folder. That's the Control Room — click **"Open Prompter"** for the display tab.
 
-> **Pro tip:** Right-click `index.html` → **"Create shortcut"** and drag it to your desktop. Now it's one double-click away, forever.
+> **Desktop shortcut tip:** Right-click `index.html` → **"Create shortcut"** → drag to desktop. One click to launch, forever.
 
 ---
 
-## Step 4: Get Updates (The Whole Point of This Exercise)
+## Step 4: Stay Current
 
-Whenever Barrett pushes an update (new features, bug fixes, better dad jokes), here's how you get it:
+When there's an update, open a terminal in your `protonompter` folder and:
 
-1. Open **File Explorer** and navigate to your `protonompter` folder
-2. **Right-click** on an empty area → **"Open in Terminal"**
-3. Type this and press **Enter**:
+```
+git pull
+```
 
-   ```
-   git pull
-   ```
-
-4. That's it. You now have the latest version.
-
-> **What you'll see:** Either a list of files that were updated, or the deeply satisfying message `Already up to date.` — which means you're already running the latest and greatest.
+That's the whole workflow. Refresh the browser and you're on the latest version.
 
 ---
 
-## Quick Reference Card
+## Quick Reference
 
-| Task | What to Do |
+| Task | Command |
 |---|---|
-| **First time setup** | Install Git (Step 1) → Clone repo (Step 2) → done forever |
-| **Get updates** | Open terminal in protonompter folder → `git pull` |
-| **Run the app** | Double-click `index.html` (or use your desktop shortcut) |
-| **Panic** | Close the terminal. Nothing you typed can break anything. Breathe. |
+| **First-time setup** | `git clone https://github.com/barrettward/protonompter.git` |
+| **Get updates** | `cd protonompter && git pull` |
+| **Run the app** | Double-click `index.html` |
+| **Nuclear option (reset everything)** | `git checkout -- . && git pull` |
 
 ---
 
 ## Troubleshooting
 
-### "git is not recognized as a command"
-You need to close and reopen your terminal after installing Git. If that doesn't work, restart your computer. Yes, really. It's Windows. That fixes things.
+### `git` not recognized after install
+Close and reopen the terminal so it picks up the new PATH. Classic Windows move.
 
 ### "fatal: not a git repository"
-You're in the wrong folder. Make sure you're inside the `protonompter` folder, not its parent. The terminal prompt should show something like `C:\Users\YourName\Documents\protonompter>`.
+You're in the parent directory — `cd protonompter` first.
 
-### "error: Your local changes would be overwritten"
-You've edited `index.html` locally (maybe accidentally). Run:
-```
-git checkout -- .
-```
-Then try `git pull` again. This resets your local copy to match what's online.
-
-### The prompter isn't connecting to the control room
-Make sure both tabs are open from the **same file** (same `index.html`). If you downloaded a second copy somewhere, they won't talk to each other. The tabs communicate through a shared channel that only works when they're from the same origin.
-
-### I broke something and everything is on fire
-```
-git pull
-```
-Fixes most things. If not:
+### "Your local changes would be overwritten"
+Something got edited locally. Reset and pull:
 ```
 git checkout -- .
 git pull
 ```
-That resets everything back to the latest version. Your local settings (font size, colors, etc.) are stored in the browser and won't be affected.
+Your browser settings (font size, colors, speed, etc.) live in localStorage, not the file, so they're safe.
+
+### Prompter tab not connecting to Control Room
+Both tabs need to be opened from the same `index.html` file. If you have a second copy floating around from the earlier download, the BroadcastChannel won't bridge across different origins.
 
 ---
 
-## For Reference: Mouse & Keyboard Controls
-
-### Prompter Display Controls (Tab B)
+## Prompter Controls Reference
 
 **Mouse:**
 
-| Input | What It Does |
+| Input | Action |
 |---|---|
-| **Left Click** | Start / Pause scrolling |
+| **Left Click** | Play / Pause |
 | **Scroll Wheel (playing)** | Adjust speed (0.5x steps) |
 | **Shift + Scroll (playing)** | Fine speed adjust (0.1x steps) |
 | **Scroll Wheel (paused)** | Scrub through script |
-| **Right Click + Scroll** | Scrub (always works) |
+| **Right Click + Scroll** | Scrub (always, playing or paused) |
 | **Double Click** | Toggle fullscreen |
 
 **Keyboard:**
 
-| Key | What It Does |
+| Key | Action |
 |---|---|
-| **Space** | Start / Pause |
-| **Arrow Up / Down** | Scrub position |
-| **Arrow Left / Right** | Adjust speed |
-| **Shift + Left / Right** | Fine speed adjust |
+| **Space** | Play / Pause |
+| **↑ / ↓** (or **W / S**) | Scrub position |
+| **← / →** (or **A / D**) | Adjust speed (0.5x steps) |
+| **Shift + ← / →** | Fine speed adjust (0.1x steps) |
 | **F** | Toggle fullscreen |
 | **' (apostrophe)** | Jump to top |
 | **/ (slash)** | Jump to end |
+| **Page Up / Page Down** | Large scrub jumps |
 
 ---
 
