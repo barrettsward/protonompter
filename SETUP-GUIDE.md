@@ -56,7 +56,7 @@ That's the whole workflow. Refresh the browser and you're on the latest version.
 | **First-time setup** | `git clone https://github.com/barrettward/protonompter.git` |
 | **Get updates** | `cd protonompter && git pull` |
 | **Run the app** | Double-click `index.html` |
-| **Nuclear option (reset everything)** | `git checkout -- . && git pull` |
+| **Nuclear option (reset everything)** | `git restore . && git pull` |
 
 ---
 
@@ -71,9 +71,10 @@ You're in the parent directory — `cd protonompter` first.
 ### "Your local changes would be overwritten"
 Something got edited locally. Reset and pull:
 ```
-git checkout -- .
+git restore .
 git pull
 ```
+Warning: this discards local file edits in the repo. Use it only when you want to throw local changes away and return to the latest repo version.
 Your browser settings (font size, colors, speed, etc.) live in localStorage, not the file, so they're safe.
 
 ### Prompter tab not connecting to Control Room

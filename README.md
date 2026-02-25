@@ -77,7 +77,7 @@ It was designed for locked-down healthcare system PCs where you can't install so
 
 ```
 protonompter/
-├── index.html              ← The ENTIRE app (single file, ~700 lines)
+├── index.html              ← The ENTIRE app (single file, ~1600 lines)
 ├── README.md               ← You are here
 └── PROTONOMPTER-SPEC.md    ← Full technical specification
 ```
