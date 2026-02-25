@@ -564,110 +564,97 @@ input[type="range"]::-moz-range-thumb {
 // ============================================
 
 // --- SEED SCRIPT ---
-const SEED_SCRIPT = `THE LITTLE PROTON THAT COULD FIX THINGS BY BREAKING THEM
-A Totally Scientific Tale from the Covenant Health Proton Center
+const SEED_SCRIPT = `THE BRAGG PEAK OF HIS CAREER
+A Moderately Rigorous Tale from the Covenant Health Proton Center
 
 [INTRO]
 
-Hello, and welcome to Proton Stories — the only podcast where the particles are small, but the personality is atomic.
+Welcome to Proton Stories — where the particles are relativistic, the humor has a finite range, and every depth-dose curve tells a love story.
 
-I'm your host, and today we're telling the tale of Pete the Proton — the tiniest hero at Covenant Health who discovered that sometimes, the best way to fix something... is to break it.
+Today: Pete the Proton. 230 MeV of kinetic energy. One precisely calculated mission. And a growing appreciation for the Bethe-Bloch equation.
 
-But first, a quick reminder: protons are always positive. Even on Mondays.
+[CHAPTER 1: DR. S AND HER CYCLOTRON]
 
-[CHAPTER 1: THE BEGINNING]
+Pete didn't arrive at 60% the speed of light by accident. He got there the hard way — through Dr. Samantha Hedrick's cyclotron.
 
-Pete was no ordinary proton. While other protons were happy just hanging around in the nucleus being positive, Pete had bigger dreams.
+Dr. S is the Director of Medical Physics at the Covenant Health Proton Center. It is her cyclotron. This is not a metaphor. It is also not a suggestion.
 
-"I want to help people," Pete said to his friend Ellie the Electron, who was — as usual — being negative about everything.
+Her machine accelerates protons through a series of dee-shaped electrodes under a strong magnetic field, spiraling outward in expanding orbits — each pass across the accelerating gap adding another kick of energy — until they exit at ~230 MeV and 60% the speed of light. Then they get extracted, collimated, and steered into a pencil beam with millimeter precision.
 
-"That's impossible," Ellie said, orbiting in circles. "We're subatomic particles. The best we can do is keep atoms from falling apart."
+"This is elegant machinery," Dr. S told Pete, patting the beam nozzle. "Don't embarrass me."
 
-"Watch me," said Pete. And he accelerated to sixty percent the speed of light.
+Pete did not embarrass her.
 
-Why did Pete break up with his neutron girlfriend? She had no charge.
+[CHAPTER 2: THE PHYSICS OF STOPPING]
 
-[CHAPTER 2: THE PROTON CENTER]
+Here is what the Bethe-Bloch equation taught Pete about traveling through matter:
 
-Pete arrived at the Covenant Health Proton Center and was amazed. The place was enormous — at least from a proton's perspective. A coffee mug might as well be the Grand Canyon.
+Stopping power — the energy deposited per unit path length — is not constant. It scales roughly as 1/v². The faster you move, the less energy you shed per centimeter. The slower you move, the more. This means a proton entering tissue deposits modest dose at shallow depths, moderate dose through the middle, and then — at a depth determined precisely by its initial kinetic energy — it decelerates sharply and dumps nearly all remaining energy into a narrow, brilliant spike.
 
-The team there had built an incredible machine — a cyclotron — that could accelerate protons like Pete to unbelievable speeds.
+The Bragg peak. Pete's reason for existing.
 
-"This is basically a roller coaster for protons," Pete observed. "Except instead of going in circles for fun, we go in circles for SCIENCE."
+A 230 MeV proton has a range of approximately 32 centimeters in water. Drop to 150 MeV and you're at around 16 cm. Treatment planning exploits this energy-range relationship to steer the Bragg peak to exactly the right depth.
 
-What did the proton say when it walked into a bar? "I'm positive this is going to be a good time."
+Unlike photon beams — which deposit maximum dose near the surface and then decay exponentially, delivering exit dose to whatever tissue has the misfortune of being downstream — protons have a finite range. Beyond the Bragg peak: essentially zero dose.
 
-[CHAPTER 3: THE BIG IDEA]
+The healthy tissue on the far side never knows Pete was there.
 
-Here's the thing about proton therapy that blew Pete's tiny subatomic mind:
+[CHAPTER 3: THE SPREAD-OUT BRAGG PEAK]
 
-You fix things by breaking them.
+One pristine Bragg peak covers a depth range of a few millimeters. Tumors do not cooperate with this constraint.
 
-Not everything, of course. You don't fix a vase by dropping it. You don't fix a computer by throwing it out the window — though honestly, sometimes that feels like the only option.
+The solution is the Spread-Out Bragg Peak — a SOBP — achieved by superimposing many individual Bragg peaks at incrementally different energies with carefully weighted fluences. The result is a flat, uniform dose plateau across the target volume, sharp falloff at the distal edge, and, crucially, spared dose proximal and distal to the target.
 
-But with proton therapy, you aim these tiny positive particles at exactly the right spot, and they deliver their energy RIGHT where it's needed. It's like the world's most precise demolition crew, except the hard hats are really, really small.
+Dr. S's team builds these plans using pencil beam scanning: the proton beam is magnetically deflected in x and y, painting dose across each layer of the target in a raster pattern. Energy is modulated between layers to step the Bragg peak through depth. Hundreds of individual beam spots. Each one weighted. Each one mattering.
 
-A neutron walks into a bar and asks, "How much for a drink?" The bartender says, "For you? No charge."
+"We're solving an inverse problem," Dr. S explained to the visiting resident. "You define the dose you want — three-dimensional, conforming tightly to the target volume — and the planning system works backward to find the optimal spot positions, energies, and monitor unit weights. It's a constrained optimization over a very large parameter space."
 
-[CHAPTER 4: PETE GETS TO WORK]
+The resident wrote everything down.
 
-Pete was assigned to his first mission. The lead physicist lined up the beam.
+Pete trusted the math.
 
-"Remember, Pete," said Dr. Martinez, "your job is to go in, deliver your energy at the Bragg peak, and help take out the bad cells. No friendly fire."
+What do you call a proton that misses the Bragg peak? A quality assurance incident.
 
-Pete nodded — which is hard when you don't have a head.
+[CHAPTER 4: THE BIOLOGICAL CASE]
 
-"I've got this," Pete said. "After all, I've been positive about this from the start."
+Here's the part that surprises people: protons are not dramatically more biologically effective than photons. The relative biological effectiveness — RBE — is approximately 1.1 near the end of range. Not 5. Not 10. One-point-one.
 
-The other protons in the beam groaned.
+The clinical argument is not exotic radiobiology. It's physics.
 
-What do you call a proton that tells dad jokes? A pro-TON of fun.
+For a pediatric patient with a posterior fossa tumor sitting adjacent to the brainstem and cochlea, the difference between a conformal proton plan and the best available photon plan isn't academic. It's late-effect toxicity. It's hearing loss at age nine. It's neurocognitive outcomes at fifteen. By shaping dose away from critical structures — structures that have no business absorbing ionizing radiation — you change the therapeutic ratio in ways that compound over a lifetime.
 
-[CHAPTER 5: THE BRAGG PEAK]
+Pete found this genuinely moving, for a particle with no discernible emotional architecture.
 
-The beautiful thing about protons — and Pete took great pride in this — is the Bragg peak. Unlike X-rays that scatter energy everywhere like confetti at a parade, protons deliver most of their energy at one precise depth.
+[CHAPTER 5: DELIVERY AND DR. S]
 
-"We're not just throwing energy at the problem," Pete explained to the touring medical students. "We're placing it. With surgical precision. Like a delivery driver who always hits the exact right doorstep."
+On the morning of his first treatment, Pete was part of a beam that had been verified through an extensive QA protocol: output constancy checks, Bragg peak depth measurements, spot position verification, end-to-end phantom testing. Dr. S had personally reviewed the plan.
 
-One student raised her hand. "So you're like a tiny, very fast FedEx?"
+The gantry rotated to beam angle one.
 
-"Yes," said Pete. "Except I always arrive on time and I never lose the package."
+"Protons," Dr. S said to no one in particular, "are basically 3D printing with ionizing radiation. Except the printer weighs 220 tons and the ink is a relativistic charged particle beam."
 
-Why don't protons ever get into arguments? Because they always stay positive.
+She paused.
 
-[CHAPTER 6: THE TEAM]
+"Do not repeat that at AAPM."
 
-Pete couldn't do it alone, of course. Proton therapy takes a whole team — physicists who plan the treatment, therapists like Sammie who make sure everything runs perfectly, doctors who design the approach, and engineers who keep the cyclotron spinning.
+Pete was delivered precisely. Spot by spot. Layer by layer. Energy by energy.
 
-"We're all in this together," Pete said to his fellow protons. "Each one of us carries a little bit of hope, a little bit of science, and a LOT of kinetic energy."
+[CHAPTER 6: THE MORAL]
 
-"That was beautiful, Pete."
+Pete arrived at his Bragg peak — calculated, verified, delivered — and did what protons do. He deposited his energy exactly where the plan said to. He helped.
 
-"Thanks. I've been working on my motivational speaking. It's hard to book gigs when you're smaller than a wavelength of visible light."
+Proton therapy is not a miracle. It is physics, applied with enough precision that the margin between target dose and healthy tissue dose becomes clinically meaningful. It is a machine the size of a small building, a team of people who know exactly what they're doing, and Dr. S making sure every number is right.
 
-What did the proton beam say to the tumor? "I've got energy to spare, and I'm positive you're not going to like it."
+Be like Pete. Go exactly where you're supposed to go. Stop exactly when you're supposed to stop.
 
-[CHAPTER 7: THE MORAL]
+And always, always stay positive.
 
-And so Pete learned that sometimes, the best way to fix something is to break it — as long as you break EXACTLY the right thing, in EXACTLY the right place, with EXACTLY the right amount of energy.
-
-That, friends, is what proton therapy is all about.
-
-It's not just radiation. It's precision. It's science. It's a tiny positive particle on a very important mission.
-
-So the next time someone tells you to "stay positive," remember Pete. Because being positive isn't just good advice — for a proton, it's literally the only option.
-
-You know what they say about proton therapy?
-
-It's absolutely RAD.
-
-...I'll see myself out.
+It's literally the only option. You're a proton.
 
 [END]
 
-Thank you for listening to Proton Stories. Remember — every proton carries a positive charge, and every patient carries our hearts.
-
-This has been a production of the Covenant Health Proton Center — where science and compassion accelerate together.`;
+Thank you for listening to Proton Stories.
+From the Covenant Health Proton Center — where the Bragg peaks are sharp, and so is the staff.`;
 
 // --- DEFAULTS ---
 const DEFAULTS = {
