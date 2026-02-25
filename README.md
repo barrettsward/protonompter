@@ -2,7 +2,7 @@
 
 **Always positive. Always on cue.**
 
-A portable, zero-install, browser-based teleprompter built for Sammie at the [Covenant Health Proton Center](https://www.covenanthealth.com/covenant-health-proton-center/). Because proton therapy is RAD — and so is reading from a teleprompter without needing admin rights.
+A portable, zero-install, browser-based teleprompter built for Dr. S at the [Covenant Health Proton Center](https://www.covenanthealth.com/covenant-health-proton-center/). Because proton therapy is RAD — and so is reading from a teleprompter without needing admin rights.
 
 > **Fun fact:** Proton + Teleprompter = Protonompter. Yes, we know. We're very clever. 😏
 
