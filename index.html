@@ -95,6 +95,7 @@ body.light-mode {
 .cr-logo .atom { font-size: 28px; }
 .cr-logo .title-text { background: linear-gradient(135deg, var(--accent), #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .cr-tagline { font-size: 11px; color: var(--text-secondary); font-style: italic; margin-top: 2px; }
+.cr-version { font-weight: 700; font-style: normal; color: var(--text-primary); margin-left: 4px; }
 .cr-status {
   display: flex;
   align-items: center;
@@ -803,7 +804,7 @@ function initControlRoom() {
             <span class="atom">⚛️</span>
             <span class="title-text">PROTONOMPTER</span>
           </div>
-          <div class="cr-tagline">Always positive. Always on cue.</div>
+          <div class="cr-tagline">Always positive. Always on cue. <span class="cr-version">v1.2</span></div>
         </div>
         <div class="cr-status">
           <span class="cr-playback-state" id="playback-state">STOPPED</span>

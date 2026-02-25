@@ -184,22 +184,20 @@ The app comes pre-loaded with **"The Little Proton That Could Fix Things by Brea
 
 ## 📋 Changelog
 
-### v1.2 — Controls Update
-- **Mirror + Countdown fix:** Countdown overlay now correctly inherits horizontal/vertical mirror transforms — numbers no longer appear backwards when using a physical mirror setup
-- **Keyboard controls — reworked:**
-  - `↑ / ↓` (and `W / S`) now **scrub position** through the script
-  - `← / →` (and `A / D`) now **adjust speed**
-  - `'` (apostrophe) = jump to top, `/` (slash) = jump to end — Mac-friendly, no Fn key needed
-  - `F` = fullscreen toggle
-  - `Page Up / Down` = large scrub jumps
-  - Shift+arrow = fine speed adjustment
-- **Mouse speed control:**
-  - Scroll while **playing** = adjust speed (0.5x steps coarse, Shift+scroll for 0.1x fine)
-  - Scroll while **paused** = scrub position (no modifier needed)
-  - Right-click + scroll = scrub always (unchanged)
-- **Higher speed ceiling:** Max speed raised from 3.3x to 5.0x (300 px/s)
-- **Safari slow-speed fix:** Sub-pixel scroll accumulator prevents freeze at speeds below 1.0x in Safari
-- **Control Room:** Quick reference hint boxes added below settings showing all mouse and keyboard controls
+Version anchors used in this repo:
+- `v1.0` baseline: commit `32385e3` (`Initial release of Protonompter v1.0`)
+- `v1.2` release: commit `633163d` (`Release Protonompter v1.2 — controls overhaul`)
+
+### What Changed From v1.0 to v1.2
+- Added a **reading guide line overlay** in the prompter plus a Control Room toggle.
+- Fixed **mirror + countdown behavior** so countdown text mirrors correctly with H/V mirror settings.
+- Reworked **keyboard controls** so `↑ / ↓` and `W / S` scrub position, while `← / →` and `A / D` adjust speed.
+- Added keyboard shortcuts for prompter navigation: `Shift + ← / →` for fine speed, `'` for top, `/` for end, `Page Up / Page Down` for large jumps, and `F` for fullscreen.
+- Reworked **mouse wheel behavior**: while playing, wheel adjusts speed (coarse by default, fine with `Shift`); while paused/stopped, wheel scrubs position; right-click + wheel remains always-scrub.
+- Increased max speed from **200 px/s to 300 px/s** (about `3.3x` to `5.0x`).
+- Added a **Safari slow-speed fix** using sub-pixel accumulation for smooth low-speed scrolling.
+- Added **in-app controls reference boxes** in the Control Room.
+- Updated documentation to reflect the controls overhaul.
 
 ### v1.0 — Initial Release
 - Two-tab teleprompter system (Control Room + Display)
