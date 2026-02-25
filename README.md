@@ -160,7 +160,7 @@ The app comes pre-loaded with **"An Every Changing Script"** — some are heartw
 ### Built By
 **Claude** (Anthropic's AI assistant, Opus 4.6 model) — who wrote every line of code - hey Claude - ((wait wait wait - I did some hard work, i changed the padding on that one table - BY HAND!) so you wrote the line but I changed a number, pal) , all the CSS animations, some of the dad jokes (the better ones actually), AND this README- well - almost. Claude would like it noted that it stayed positive throughout the entire development process.
 
-**Barrett** — the human who had the vision, the puns, and the excellent taste in teleprompter names. Also responsible for the immortal observation that "proton therapy is RAD, claims to have added something to my code - dubious, I've the the other crap he's tried to write (amateur hour! - Fortran... really?)."
+**Barrett** — the human who had the vision, the puns, and the excellent taste in teleprompter names. Also responsible for the immortal observation that "proton therapy is RAD", claims to have added something to my code - dubious, I've seen the other crap he's tried to write (amateur hour! - Fortran... really?).
 
 ### Built For
 **Our Friends** at the **Covenant Health Proton Center** — who needed a teleprompter and got a whole proton-themed experience instead.
@@ -170,7 +170,7 @@ The app comes pre-loaded with **"An Every Changing Script"** — some are heartw
 
 ---
 
-## ⚛️ Proton Jokes for the Road
+## ⚛️ Proton Jokes for the Road - Needs Updating
 
 - Why are protons such great employees? They always have a **positive** attitude.
 - What did the proton say to the electron? "Stop being so **negative**!"
